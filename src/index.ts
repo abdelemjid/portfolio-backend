@@ -14,6 +14,8 @@ import infoRouter from './routes/info.route';
 import educationRouter from './routes/education.route';
 import authRouter from './routes/auth.route';
 import contactRouter from './routes/contact.route';
+import httpLogger from './middlewares/http.logger.middlewere';
+import logger from './config/logger';
 
 dotenv.config();
 const app = express();
@@ -64,10 +66,10 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// use logger
+app.use(httpLogger);
 
-// User Routes
-
-// Admin Routes
+// All Routes
 app.use('/projects', projectRouter);
 app.use('/categories', categoryRouter);
 app.use('/skills', skillRouter);
@@ -76,6 +78,12 @@ app.use('/info', infoRouter);
 app.use('/education', educationRouter);
 app.use('/admin-ath', authRouter);
 app.use('/contact', contactRouter);
+
+// Health Route
+app.get('/health', (req, res) => {
+  logger.info('Health check hit');
+  res.json({ status: 'ok' });
+});
 
 app.listen(Number(port), () => {
   console.log('[+] The app is running');

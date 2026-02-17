@@ -21,6 +21,11 @@ export const createEducation = [
     .withMessage('Education startingTime must not be empty!')
     .isDate({ format: 'dd/MM/yyyy' }) // change it to accept ISO format only
     .withMessage('Education startingTime must be a Date type!'),
+  body('icon')
+    .notEmpty()
+    .withMessage('Education icons is required, and must not be empty!')
+    .isString()
+    .withMessage('Education must be a string!'),
 ];
 
 export const updateEducation = [
@@ -53,6 +58,12 @@ export const updateEducation = [
     .withMessage('Education startingTime must not be empty!')
     .isDate({ format: 'dd/MM/yyyy' }) // change it to accept ISO format only
     .withMessage('Education startingTime must be a Date type!'),
+  body('icon')
+    .optional()
+    .notEmpty()
+    .withMessage('Education icons is required, and must not be empty!')
+    .isString()
+    .withMessage('Education must be a string!'),
 ];
 
 export const getEducation = [

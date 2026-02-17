@@ -14,6 +14,12 @@ export const createSkill = [
   body('proficiency')
     .isInt({ min: 1, max: 100 })
     .withMessage('Skill proficiency must be a number ranging between 1 and 100!'),
+  body('icon')
+    .optional()
+    .isString()
+    .withMessage('Skill icon must be a string!')
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Skill icon must be 1 to 50 characters!'),
 ];
 
 export const updateSkill = [
@@ -29,6 +35,12 @@ export const updateSkill = [
     .optional()
     .isInt({ min: 1, max: 100 })
     .withMessage('Skill proficiency must be a number ranging between 1 and 100!'),
+  body('icon')
+    .optional()
+    .isString()
+    .withMessage('Skill icon must be a string!')
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Skill icon must be 1 to 50 characters!'),
 ];
 
 export const deleteSkill = [param('id').isMongoId().withMessage('Skill ID not valid!')];

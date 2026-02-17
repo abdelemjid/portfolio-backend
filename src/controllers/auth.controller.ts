@@ -31,7 +31,7 @@ export class AuthController {
         expiresIn: '1d',
       });
 
-      res.cookie('ath-token', token, {
+      res.cookie('auth_token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000,
@@ -67,7 +67,7 @@ export class AuthController {
         expiresIn: '1d',
       });
 
-      res.cookie('ath-token', token, {
+      res.cookie('auth_token', token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         maxAge: 24 * 60 * 60 * 1000,
@@ -81,7 +81,7 @@ export class AuthController {
 
   async logout(req: Request, res: Response): Promise<Response | void> {
     try {
-      res.cookie('ath-token', '', {
+      res.cookie('auth_token', '', {
         expires: new Date(0),
       });
 

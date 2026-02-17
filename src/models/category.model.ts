@@ -4,6 +4,7 @@ export interface Category extends Document {
   _id: Types.ObjectId;
   name: string;
   description: string;
+  icon: string;
   createdAt?: Date;
 }
 
@@ -20,6 +21,7 @@ const schema = new Schema<Category>(
       type: String,
       maxlength: 200,
     },
+    icon: { type: String, required: false, default: null },
   },
   {
     timestamps: true,

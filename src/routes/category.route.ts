@@ -1,28 +1,45 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 import * as validator from '../validators/category.validator';
 import { CategoryController } from '../controllers/category.controller';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { asyncHandler } from '../utils/async.handler';
+import { globalLimiter } from '../middlewares/ratelimiter.middleware';
 
 const router = Router();
 const controller = new CategoryController();
 const middleware = new AuthMiddleware();
 
-router.get('/', asyncHandler(controller.getAll));
+router.get('/', globalLimiter, asyncHandler(controller.getCategorySkills));
 
-router.post('/', middleware.verifyToken, validator.createCategory, asyncHandler(controller.create));
+router.get('/only', globalLimiter, middleware.verifyToken, asyncHandler(controller.getAll));
+
+router.post(
+  '/',
+  globalLimiter,
+  middleware.verifyToken,
+  validator.createCategory,
+  asyncHandler(controller.create),
+);
 
 router.patch(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.updateCategory,
   asyncHandler(controller.update),
 );
 
-router.get('/:id', middleware.verifyToken, validator.getCategory, asyncHandler(controller.get));
+router.get(
+  '/:id',
+  globalLimiter,
+  middleware.verifyToken,
+  validator.getCategory,
+  asyncHandler(controller.get),
+);
 
 router.delete(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.deleteCategory,
   asyncHandler(controller.delete),

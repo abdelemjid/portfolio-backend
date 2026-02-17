@@ -6,6 +6,7 @@ export interface Education extends Document {
   learningSource: string;
   description: string;
   startingTime: Date;
+  icon: string;
   createdAt?: Date;
 }
 
@@ -14,6 +15,7 @@ const educationSchema = new Schema<Education>(
     name: { type: String, required: true },
     learningSource: { type: String, required: true },
     description: { type: String, required: true },
+    icon: { type: String, required: true },
     startingTime: { type: Date, required: true },
   },
   { timestamps: true },

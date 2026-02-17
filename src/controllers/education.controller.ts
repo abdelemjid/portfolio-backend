@@ -10,9 +10,15 @@ export class EducationController {
     }
 
     try {
-      const { name, learningSource, description, startingTime } = req.body;
+      const { name, learningSource, description, startingTime, icon } = req.body;
 
-      const education = new educationModel({ name, learningSource, description, startingTime });
+      const education = new educationModel({
+        name,
+        learningSource,
+        description,
+        startingTime,
+        icon,
+      });
       if (!education) return res.status(500).json({ message: 'Something went wrong!' });
 
       await education.save();
@@ -35,18 +41,21 @@ export class EducationController {
       const learningSource = req.body.learningSource;
       const description = req.body.description;
       const startingTime = req.body.startingTime;
+      const icon = req.body.icon;
 
       const data: {
         name?: string;
         learningSource?: string;
         description?: string;
         startingTime?: Date;
+        icon?: string;
       } = {};
 
       if (name) data.name = name;
       if (learningSource) data.learningSource = learningSource;
       if (description) data.description = description;
       if (startingTime) data.startingTime = new Date(startingTime);
+      if (icon) data.icon = icon;
 
       const updated = await educationModel.findByIdAndUpdate(id, data);
       if (!updated) return res.status(200).json({ message: 'Nothing is updated!' });

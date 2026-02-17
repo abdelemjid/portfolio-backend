@@ -11,7 +11,13 @@ export const createCategory = [
     .isString()
     .withMessage('Category name must be a string!')
     .isLength({ min: 1, max: 150 })
-    .withMessage('Category name must be 1 to 50 characters!'),
+    .withMessage('Category name must be 1 to 150 characters!'),
+  body('icon')
+    .optional()
+    .isString()
+    .withMessage('Category icon must be a string!')
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Category icon must be 1 to 50 characters!'),
 ];
 
 export const updateCategory = [
@@ -27,7 +33,13 @@ export const updateCategory = [
     .isString()
     .withMessage('Category name must be a string!')
     .isLength({ min: 1, max: 150 })
-    .withMessage('Category name must be 1 to 50 characters!'),
+    .withMessage('Category name must be 1 to 150 characters!'),
+  body('icon')
+    .optional()
+    .isString()
+    .withMessage('Category icon must be a string!')
+    .isLength({ min: 1, max: 50 })
+    .withMessage('Category icon must be 1 to 50 characters!'),
 ];
 
 export const getCategory = [param('id').isMongoId().withMessage('Category ID not valid!')];

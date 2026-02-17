@@ -3,6 +3,8 @@ import multer from 'multer';
 import { ProjectController } from '../controllers/project.controller';
 import * as validator from '../validators/project.validator';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { asyncHandler } from '../utils/async.handler';
+import { globalLimiter } from '../middlewares/ratelimiter.middleware';
 
 const router = Router();
 const controller = new ProjectController();
@@ -29,36 +31,38 @@ const upload = multer({
 // Create
 router.post(
   '/',
+  globalLimiter,
   middleware.verifyToken,
   upload.single('projectImage'),
   validator.projectCreate,
-  (req: Request, res: Response, next: NextFunction) => controller.create(req, res).catch(next),
+  asyncHandler(controller.create),
 );
 // Update
 router.patch(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   upload.single('projectImage'),
   validator.projectUpdate,
-  (req: Request, res: Response, next: NextFunction) => controller.update(req, res).catch(next),
+  asyncHandler(controller.update),
 );
 // Fetch
-router.get('/', (req: Request, res: Response, next: NextFunction) =>
-  controller.readAll(req, res).catch(next),
-);
+router.get('/', asyncHandler(controller.readAll));
 // Fetch by ID
 router.get(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.projectGetOne,
-  (req: Request, res: Response, next: NextFunction) => controller.readOne(req, res).catch(next),
+  asyncHandler(controller.readOne),
 );
 // Delete by ID
 router.delete(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.projectGetOne,
-  (req: Request, res: Response, next: NextFunction) => controller.delete(req, res).catch(next),
+  asyncHandler(controller.delete),
 );
 
 export default router;

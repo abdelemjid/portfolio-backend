@@ -3,19 +3,27 @@ import { ContactController } from '../controllers/contact.controller';
 import { asyncHandler } from '../utils/async.handler';
 import * as validator from '../validators/contact.validator';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { contactLimiter, globalLimiter } from '../middlewares/ratelimiter.middleware';
 
 const router = Router();
 const controller = new ContactController();
 const middleware = new AuthMiddleware();
 
-router.get('/', asyncHandler(controller.getAll));
+router.get('/', globalLimiter, middleware.verifyToken, asyncHandler(controller.getAll));
 
-router.post('/', middleware.verifyToken, validator.create, asyncHandler(controller.create));
+router.post('/', contactLimiter, validator.create, asyncHandler(controller.create));
 
-router.get('/:id', middleware.verifyToken, validator.getById, asyncHandler(controller.getById));
+router.get(
+  '/:id',
+  globalLimiter,
+  middleware.verifyToken,
+  validator.getById,
+  asyncHandler(controller.getById),
+);
 
 router.delete(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.deleteById,
   asyncHandler(controller.delete),

@@ -22,9 +22,16 @@ export class SkillController {
     }
 
     try {
-      const { name, proficiency, categoryId } = req.body;
+      const { name, proficiency, categoryId, icon } = req.body;
 
-      const skill = new skillModel({ name, proficiency, categoryId });
+      const data: { name: string; proficiency: number; categoryId: string; icon?: string } = {
+        name,
+        proficiency,
+        categoryId,
+      };
+      if (icon) data.icon = icon;
+
+      const skill = new skillModel(data);
       if (!skill)
         return res.status(500).json({ message: 'Something went wrong during the skill creation!' });
 
@@ -58,11 +65,13 @@ export class SkillController {
       const name = req.body.name;
       const proficiency = req.body.proficiency;
       const categoryId = req.body.categoryId;
+      const icon = req.body.icon;
 
-      const data: { name?: string; proficiency?: number; categoryId?: string } = {};
+      const data: { name?: string; proficiency?: number; categoryId?: string; icon?: string } = {};
       if (name) data.name = name;
       if (proficiency) data.proficiency = proficiency;
       if (categoryId) data.categoryId = categoryId;
+      if (icon) data.icon = icon;
 
       const updated = await skillModel.findByIdAndUpdate(id, data);
       if (!updated) return res.status(200).json({ message: 'Skill did not updated.' });

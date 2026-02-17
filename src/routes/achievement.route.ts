@@ -3,15 +3,17 @@ import { AchievementController } from '../controllers/achievement.controller';
 import { asyncHandler } from '../utils/async.handler';
 import * as validator from '../validators/achievement.validator';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
+import { globalLimiter } from '../middlewares/ratelimiter.middleware';
 
 const router = Router();
 const controller = new AchievementController();
 const middleware = new AuthMiddleware();
 
-router.get('/', asyncHandler(controller.get));
+router.get('/', globalLimiter, asyncHandler(controller.get));
 
 router.post(
   '/',
+  globalLimiter,
   middleware.verifyToken,
   validator.createAchievement,
   asyncHandler(controller.create),
@@ -19,6 +21,7 @@ router.post(
 
 router.get(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.getAchievement,
   asyncHandler(controller.getById),
@@ -26,6 +29,7 @@ router.get(
 
 router.patch(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.updateAchievement,
   asyncHandler(controller.update),
@@ -33,6 +37,7 @@ router.patch(
 
 router.delete(
   '/:id',
+  globalLimiter,
   middleware.verifyToken,
   validator.deleteAchievement,
   asyncHandler(controller.delete),
