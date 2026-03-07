@@ -13,7 +13,6 @@ router.get('/', globalLimiter, asyncHandler(controller.get));
 
 router.post(
   '/',
-  globalLimiter,
   middleware.verifyToken,
   validator.createAchievement,
   asyncHandler(controller.create),
@@ -21,7 +20,6 @@ router.post(
 
 router.get(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.getAchievement,
   asyncHandler(controller.getById),
@@ -29,7 +27,6 @@ router.get(
 
 router.patch(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.updateAchievement,
   asyncHandler(controller.update),
@@ -37,7 +34,6 @@ router.patch(
 
 router.delete(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.deleteAchievement,
   asyncHandler(controller.delete),

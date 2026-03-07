@@ -31,7 +31,6 @@ const upload = multer({
 // Create
 router.post(
   '/',
-  globalLimiter,
   middleware.verifyToken,
   upload.single('projectImage'),
   validator.projectCreate,
@@ -40,7 +39,6 @@ router.post(
 // Update
 router.patch(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   upload.single('projectImage'),
   validator.projectUpdate,
@@ -51,7 +49,6 @@ router.get('/', asyncHandler(controller.readAll));
 // Fetch by ID
 router.get(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.projectGetOne,
   asyncHandler(controller.readOne),
@@ -59,7 +56,6 @@ router.get(
 // Delete by ID
 router.delete(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.projectGetOne,
   asyncHandler(controller.delete),

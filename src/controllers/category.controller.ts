@@ -89,11 +89,11 @@ export class CategoryController {
             skillCount: { $size: '$skills' },
           },
         },
-        {
-          $match: {
-            skillCount: { $gt: 0 },
-          },
-        },
+        // {
+        //   $match: {
+        //     skillCount: { $gt: 0 },
+        //   },
+        // },
         {
           $project: {
             name: 1,
@@ -105,11 +105,12 @@ export class CategoryController {
               name: 1,
               proficiency: 1,
               icon: 1,
+              categoryId: 1,
             },
           },
         },
         {
-          $sort: { name: 1 },
+          $sort: { createdAt: 1 },
         },
       ]);
 

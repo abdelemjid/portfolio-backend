@@ -11,25 +11,12 @@ const middleware = new AuthMiddleware();
 
 router.get('/', globalLimiter, asyncHandler(controller.get));
 
-router.post(
-  '/',
-  globalLimiter,
-  middleware.verifyToken,
-  validator.createInfo,
-  asyncHandler(controller.create),
-);
+router.post('/', middleware.verifyToken, validator.createInfo, asyncHandler(controller.create));
 
-router.patch(
-  '/:id',
-  globalLimiter,
-  middleware.verifyToken,
-  validator.updateInfo,
-  asyncHandler(controller.update),
-);
+router.patch('/:id', middleware.verifyToken, validator.updateInfo, asyncHandler(controller.update));
 
 router.delete(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.deleteInfo,
   asyncHandler(controller.delete),

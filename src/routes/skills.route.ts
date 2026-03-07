@@ -11,17 +11,10 @@ const router = Router();
 
 router.get('/', globalLimiter, asyncHandler(controller.getAll));
 
-router.post(
-  '/',
-  globalLimiter,
-  middleware.verifyToken,
-  validator.createSkill,
-  asyncHandler(controller.create),
-);
+router.post('/', middleware.verifyToken, validator.createSkill, asyncHandler(controller.create));
 
 router.patch(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.updateSkill,
   asyncHandler(controller.update),
@@ -29,23 +22,15 @@ router.patch(
 
 router.get(
   '/category/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.getSkillByCategory,
   asyncHandler(controller.getByCategory),
 );
 
-router.get(
-  '/:id',
-  globalLimiter,
-  middleware.verifyToken,
-  validator.getSkill,
-  asyncHandler(controller.getById),
-);
+router.get('/:id', middleware.verifyToken, validator.getSkill, asyncHandler(controller.getById));
 
 router.delete(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.deleteSkill,
   asyncHandler(controller.delete),

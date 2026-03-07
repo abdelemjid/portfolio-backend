@@ -19,7 +19,7 @@ export const createEducation = [
   body('startingTime')
     .notEmpty()
     .withMessage('Education startingTime must not be empty!')
-    .isDate({ format: 'dd/MM/yyyy' }) // change it to accept ISO format only
+    .isDate({ format: 'yyyy/MM/dd' }) // change it to accept ISO format only
     .withMessage('Education startingTime must be a Date type!'),
   body('icon')
     .notEmpty()
@@ -56,7 +56,7 @@ export const updateEducation = [
     .optional()
     .notEmpty()
     .withMessage('Education startingTime must not be empty!')
-    .isDate({ format: 'dd/MM/yyyy' }) // change it to accept ISO format only
+    .isDate({ format: 'yyyy/MM/dd' }) // change it to accept ISO format only
     .withMessage('Education startingTime must be a Date type!'),
   body('icon')
     .optional()

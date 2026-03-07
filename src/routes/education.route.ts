@@ -13,7 +13,6 @@ router.get('/', globalLimiter, asyncHandler(controller.get));
 
 router.post(
   '/',
-  globalLimiter,
   middleware.verifyToken,
   validator.createEducation,
   asyncHandler(controller.create),
@@ -21,7 +20,6 @@ router.post(
 
 router.patch(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.updateEducation,
   asyncHandler(controller.update),
@@ -29,7 +27,6 @@ router.patch(
 
 router.get(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.getEducation,
   asyncHandler(controller.getById),
@@ -37,7 +34,6 @@ router.get(
 
 router.delete(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.deleteEducation,
   asyncHandler(controller.delete),

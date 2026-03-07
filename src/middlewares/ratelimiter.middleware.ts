@@ -8,6 +8,14 @@ export const authLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+export const verifyTokenLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  message: { error: 'Too many requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 export const globalLimiter = rateLimit({
   windowMs: 1 * 60 * 1000,
   max: 30,

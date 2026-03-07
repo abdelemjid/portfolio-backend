@@ -11,35 +11,21 @@ const middleware = new AuthMiddleware();
 
 router.get('/', globalLimiter, asyncHandler(controller.getCategorySkills));
 
-router.get('/only', globalLimiter, middleware.verifyToken, asyncHandler(controller.getAll));
+router.get('/only', middleware.verifyToken, asyncHandler(controller.getAll));
 
-router.post(
-  '/',
-  globalLimiter,
-  middleware.verifyToken,
-  validator.createCategory,
-  asyncHandler(controller.create),
-);
+router.post('/', middleware.verifyToken, validator.createCategory, asyncHandler(controller.create));
 
 router.patch(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.updateCategory,
   asyncHandler(controller.update),
 );
 
-router.get(
-  '/:id',
-  globalLimiter,
-  middleware.verifyToken,
-  validator.getCategory,
-  asyncHandler(controller.get),
-);
+router.get('/:id', middleware.verifyToken, validator.getCategory, asyncHandler(controller.get));
 
 router.delete(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.deleteCategory,
   asyncHandler(controller.delete),

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import { v2 as cloudinary } from 'cloudinary';
-import projectModel from '../models/project.model';
+import projectModel, { Project } from '../models/project.model';
 
 export class ProjectController {
   constructor() {}
@@ -46,7 +46,7 @@ export class ProjectController {
       const imageUrl = await this.uploadImage(req.file as Express.Multer.File);
       if (!imageUrl) throw new Error('Image upload failed!!!');
 
-      const techs = [...technologies.split(',')];
+      const techs = Array.isArray(technologies) ? Array.from(technologies) : [technologies];
 
       const project = new projectModel({
         name,
@@ -85,31 +85,30 @@ export class ProjectController {
 
     try {
       const { id } = req.params;
-      const { name, description, link, technologies, alive } = req.body;
-      const techs = [...technologies.split(',')];
+      const name = req.body?.name;
+      const description = req.body?.description;
+      const technologies = req.body?.technologies;
+      const alive = req.body?.alive;
+      const link = req.body?.link;
+
+      let techs = null;
+      if (technologies) {
+        techs = Array.isArray(technologies) ? [...Array.from(technologies)] : [technologies];
+      }
       let imageUrl = null;
       if (req.file) {
         imageUrl = await this.uploadImage(req.file as Express.Multer.File);
       }
 
-      const values: {
-        name: string;
-        description: string;
-        link: string;
-        technologies: string[];
-        alive: boolean;
-        image?: string;
-      } = {
-        name: name,
-        description: description,
-        link: link,
-        technologies: techs,
-        alive: alive,
-      };
+      const data: Partial<Project> = {};
+      if (name) data.name = name;
+      if (description) data.description = description;
+      if (link) data.link = link;
+      if (alive) data.alive = alive;
+      if (imageUrl) data.image = imageUrl;
+      if (techs) data.technologies = techs;
 
-      if (imageUrl) values.image = imageUrl;
-
-      const updated = await projectModel.findByIdAndUpdate(id, values);
+      const updated = await projectModel.findByIdAndUpdate(id, data);
       if (!updated) return res.status(204).json({ message: 'Nothing updated!' });
 
       return res.status(201).json({ message: 'Project updated successfully.' });

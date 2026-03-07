@@ -79,6 +79,10 @@ export class AuthController {
     }
   }
 
+  async verifyToken(req: Request, res: Response): Promise<Response | void> {
+    return res.status(200).json({ message: 'Valid token' });
+  }
+
   async logout(req: Request, res: Response): Promise<Response | void> {
     try {
       res.cookie('auth_token', '', {

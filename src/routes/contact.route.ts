@@ -9,21 +9,14 @@ const router = Router();
 const controller = new ContactController();
 const middleware = new AuthMiddleware();
 
-router.get('/', globalLimiter, middleware.verifyToken, asyncHandler(controller.getAll));
+router.get('/', middleware.verifyToken, asyncHandler(controller.getAll));
 
 router.post('/', contactLimiter, validator.create, asyncHandler(controller.create));
 
-router.get(
-  '/:id',
-  globalLimiter,
-  middleware.verifyToken,
-  validator.getById,
-  asyncHandler(controller.getById),
-);
+router.get('/:id', middleware.verifyToken, validator.getById, asyncHandler(controller.getById));
 
 router.delete(
   '/:id',
-  globalLimiter,
   middleware.verifyToken,
   validator.deleteById,
   asyncHandler(controller.delete),
