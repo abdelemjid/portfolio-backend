@@ -16,24 +16,24 @@ const logger = winston.createLogger({
 
   transports: [
     new winston.transports.File({
-      filename: path.join('logs', 'error.log'),
+      filename: path.join('/tmp/logs', 'error.log'),
       level: 'error',
       maxsize: 5 * 1024 * 1024,
       maxFiles: 5,
     }),
 
     new winston.transports.File({
-      filename: path.join('logs', 'combined.log'),
+      filename: path.join('/tmp/logs', 'combined.log'),
       maxsize: 5 * 1024 * 1024,
       maxFiles: 5,
     }),
   ],
 
   exceptionHandlers: [
-    new winston.transports.File({ filename: path.join('logs', 'exceptions.log') }),
+    new winston.transports.File({ filename: path.join('/tmp/logs', 'exceptions.log') }),
   ],
   rejectionHandlers: [
-    new winston.transports.File({ filename: path.join('logs', 'rejections.log') }),
+    new winston.transports.File({ filename: path.join('/tmp/logs', 'rejections.log') }),
   ],
 });
 
