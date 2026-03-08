@@ -1,10 +1,9 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import { Router } from 'express';
 import multer from 'multer';
 import { ProjectController } from '../controllers/project.controller';
 import * as validator from '../validators/project.validator';
 import { AuthMiddleware } from '../middlewares/auth.middleware';
 import { asyncHandler } from '../utils/async.handler';
-import { globalLimiter } from '../middlewares/ratelimiter.middleware';
 
 const router = Router();
 const controller = new ProjectController();
