@@ -16,6 +16,7 @@ import authRouter from './routes/auth.route';
 import contactRouter from './routes/contact.route';
 import httpLogger from './middlewares/http.logger.middlewere';
 import logger from './config/logger';
+import { connectDatabase } from './config/database';
 
 dotenv.config();
 const app = express();
@@ -40,14 +41,16 @@ if (!cloudinarySecret)
   throw new Error("[-] There is no Cloudinary's Cloud Secret URL on Env variables!");
 
 // Connect MongoDB
-mongoose
-  .connect(mongodbString)
-  .then(() => {
-    console.log('[+] MongoDB connected successfully.');
-  })
-  .catch((error) => {
-    console.error('[!] Error mongodb connection:', error);
-  });
+// mongoose
+//   .connect(mongodbString)
+//   .then(() => {
+//     console.log('[+] MongoDB connected successfully.');
+//   })
+//   .catch((error) => {
+//     console.error('[!] Error mongodb connection:', error);
+//   });
+
+connectDatabase();
 
 // Cloudinary initialization
 cloudinary.config({
